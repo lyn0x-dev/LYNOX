@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>المشاريع — Lynox</title>
+<meta name="description" content="شوية من الحاجات اللي اشتغل عليها Lynox.">
+<meta name="theme-color" content="#07090f">
+<link rel="canonical" href="https://lynox.duckdns.org/projects.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Lynox">
+<meta property="og:title" content="المشاريع — Lynox">
+<meta property="og:description" content="شوية من الحاجات اللي اشتغل عليها Lynox.">
+<meta property="og:url" content="https://lynox.duckdns.org/projects.html">
+<meta property="og:image" content="https://lynox.duckdns.org/avatar.jpg">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="avatar.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&family=Space+Grotesk:wght@700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script>document.documentElement.classList.add('js')</script>
+</head>
+<body>
+  <a class="skip" href="#main">تخطي للمحتوى</a>
+
+  <div class="bg" aria-hidden="true">
+    <div class="grid-lines"></div>
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+  </div>
+
+  <header class="site-header">
+    <div class="wrap">
+      <div class="bar">
+        <a class="brand" href="index.html"><img src="avatar.jpg" width="30" height="30" alt=""><span>Lynox</span></a>
+        <nav class="site-nav" aria-label="التنقل الرئيسي">
+          <a href="index.html">الرئيسية</a>
+          <a href="projects.html" aria-current="page">المشاريع</a>
+          <a href="about.html">من أنا</a>
+          <a href="contact.html">تواصل</a>
+        </nav>
+        <button class="kbd-btn" type="button" data-open-palette aria-label="بحث وأوامر سريعة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="kbd-label">بحث</span><kbd>Ctrl K</kbd></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <div class="wrap">
+      <div class="page-head">
+        <h1 class="page-title">المشاريع</h1>
+        <p class="page-lede">شوية من الحاجات اللي اشتغلت عليها.</p>
+      </div>
+
+      <div class="section">
+        <div class="project-grid">
+          <a class="card featured spot reveal" href="https://lynox.hidenfree.com/" target="_blank" rel="noopener">
+            <div class="project-copy">
+              <h2 class="project-title">URANUS BOT</h2>
+              <p class="project-desc">موقع تنصيب أورانوس، وأحيانًا لينوكس.</p>
+              <span class="more">عرض المشروع <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 17 7 7M7 17V7h10"/></svg></span>
+            </div>
+            <div class="preview" aria-hidden="true">
+          <div class="preview-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="preview-url">lynox.hidenfree.com</span></div>
+          <div class="preview-body"></div>
+        </div>
+          </a>
+
+          <div class="card is-soon reveal">
+            <span class="badge">قريبًا</span>
+            <h2 class="project-title">قريب</h2>
+            <p class="project-desc">لسه قريب.</p>
+          </div>
+
+          <div class="card is-soon reveal">
+            <span class="badge">قريبًا</span>
+            <h2 class="project-title">ممكن قريب برضو</h2>
+            <p class="project-desc">قريب برضو.</p>
+          </div>
+        </div>
+      </div>
+
+      <section class="section" data-gh hidden>
+        <h2 class="section-title">من GitHub</h2>
+        <ul class="repo-list" data-gh-list></ul>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>© <span data-year>2026</span> Lynox</span>
+      <span>مبني بـ HTML وCSS وJS من غير frameworks</span>
+    </div>
+  </footer>
+
+  <dialog id="palette" class="palette" aria-label="التنقل السريع">
+    <div class="pal-box">
+      <input id="pal-input" class="pal-input" type="text" placeholder="ابحث عن صفحة أو أمر..." autocomplete="off" role="combobox" aria-expanded="true" aria-controls="pal-list">
+      <ul id="pal-list" class="pal-list" role="listbox" aria-label="النتايج"></ul>
+      <div class="pal-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> للتنقل</span><span><kbd>Enter</kbd> للفتح</span><span><kbd>Esc</kbd> للإغلاق</span></div>
+    </div>
+  </dialog>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

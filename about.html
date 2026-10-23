@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>من أنا — Lynox</title>
+<meta name="description" content="Lynox مطور بيحب المشاكل اللي محتاجة تفكير مش بس تنفيذ.">
+<meta name="theme-color" content="#07090f">
+<link rel="canonical" href="https://lynox.duckdns.org/about.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Lynox">
+<meta property="og:title" content="من أنا — Lynox">
+<meta property="og:description" content="Lynox مطور بيحب المشاكل اللي محتاجة تفكير مش بس تنفيذ.">
+<meta property="og:url" content="https://lynox.duckdns.org/about.html">
+<meta property="og:image" content="https://lynox.duckdns.org/avatar.jpg">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="avatar.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&family=Space+Grotesk:wght@700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script>document.documentElement.classList.add('js')</script>
+</head>
+<body>
+  <a class="skip" href="#main">تخطي للمحتوى</a>
+
+  <div class="bg" aria-hidden="true">
+    <div class="grid-lines"></div>
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+  </div>
+
+  <header class="site-header">
+    <div class="wrap">
+      <div class="bar">
+        <a class="brand" href="index.html"><img src="avatar.jpg" width="30" height="30" alt=""><span>Lynox</span></a>
+        <nav class="site-nav" aria-label="التنقل الرئيسي">
+          <a href="index.html">الرئيسية</a>
+          <a href="projects.html">المشاريع</a>
+          <a href="about.html" aria-current="page">من أنا</a>
+          <a href="contact.html">تواصل</a>
+        </nav>
+        <button class="kbd-btn" type="button" data-open-palette aria-label="بحث وأوامر سريعة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="kbd-label">بحث</span><kbd>Ctrl K</kbd></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <div class="wrap">
+      <div class="page-head">
+        <h1 class="page-title">من أنا</h1>
+      </div>
+
+      <div class="about-grid">
+        <aside class="card profile reveal">
+          <div class="avatar"><img src="avatar.jpg" width="736" height="766" alt="صورة Lynox الشخصية"></div>
+          <h2>Lynox</h2>
+          <p class="role" dir="ltr">Full Stack Developer</p>
+          <div class="actions">
+            <a class="btn btn-primary" href="contact.html">تواصل معايا</a>
+            <a class="btn btn-ghost" data-cv hidden href="#">السيرة الذاتية</a>
+          </div>
+        </aside>
+
+        <div style="display:grid;gap:16px">
+          <section class="card prose reveal">
+            <p>أنا Lynox، مطور بحب أشتغل على المشاكل اللي محتاجة تفكير مش بس تنفيذ. بدأت رحلتي في البرمجة بحب استكشاف إزاي الأنظمة شغالة من جوه، ولسه بحمل نفس الفضول لحد دلوقتي.</p>
+            <p>بشتغل غالبًا على مشاريع Full Stack، من تصميم الـ API لحد بناء الواجهة اللي المستخدم بيتعامل معاها. بحب الكود النضيف والبسيط أكتر من الكود "الذكي" اللي محدش هيفهمه بعد سنة.</p>
+          </section>
+
+          <section class="card reveal">
+            <h2 class="card-title">بهتم بإيه</h2>
+            <div class="chips">
+              <span class="chip-tag">حل المشاكل</span>
+              <span class="chip-tag">تعلّم مستمر</span>
+              <span class="chip-tag">كود نظيف</span>
+              <span class="chip-tag">عمل جماعي</span>
+            </div>
+          </section>
+
+          <section class="card reveal" data-stack hidden>
+            <h2 class="card-title">التقنيات</h2>
+            <div data-stack-list></div>
+          </section>
+
+          <section class="card reveal" data-exp hidden>
+            <h2 class="card-title">الخبرات</h2>
+            <ul class="timeline" data-exp-list></ul>
+          </section>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>© <span data-year>2026</span> Lynox</span>
+      <span>مبني بـ HTML وCSS وJS من غير frameworks</span>
+    </div>
+  </footer>
+
+  <dialog id="palette" class="palette" aria-label="التنقل السريع">
+    <div class="pal-box">
+      <input id="pal-input" class="pal-input" type="text" placeholder="ابحث عن صفحة أو أمر..." autocomplete="off" role="combobox" aria-expanded="true" aria-controls="pal-list">
+      <ul id="pal-list" class="pal-list" role="listbox" aria-label="النتايج"></ul>
+      <div class="pal-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> للتنقل</span><span><kbd>Enter</kbd> للفتح</span><span><kbd>Esc</kbd> للإغلاق</span></div>
+    </div>
+  </dialog>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

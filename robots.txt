@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://lynox.duckdns.org/sitemap.xml
