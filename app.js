@@ -187,13 +187,15 @@
   };
 
   const finish = () => {
-    // Lone optional card in the bento grid takes the full row
+    // Odd number of cards in the bento grid: the last one takes the full row
     $$(".bento").forEach((bento) => {
-      const shown = $$("[data-shown]", bento).filter((el) => el.parentElement === bento);
-      if (shown.length === 1) shown[0].classList.add("wide");
+      const cards = [...bento.children].filter((el) => !el.hidden && !el.classList.contains("editor-card"));
+      if (cards.length % 2 === 1) cards[cards.length - 1].classList.add("wide");
     });
     initReveal();
     initSpotlight();
+    initTilt();
+    initMagnetic();
   };
 
   /* ---------- Reveal + spotlight ---------- */
@@ -233,6 +235,83 @@
         { passive: true }
       );
     });
+  }
+
+  /* ---------- Pointer-driven effects (fine pointers, motion allowed) ---------- */
+  const fine = window.matchMedia("(pointer: fine)").matches;
+
+  function initTilt() {
+    if (reduceMotion || !fine) return;
+    $$("[data-tilt]").forEach((el) => {
+      el.addEventListener(
+        "pointermove",
+        (e) => {
+          const r = el.getBoundingClientRect();
+          const x = (e.clientX - r.left) / r.width - 0.5;
+          const y = (e.clientY - r.top) / r.height - 0.5;
+          el.style.setProperty("--ry", `${(x * 9).toFixed(2)}deg`);
+          el.style.setProperty("--rx", `${(-y * 9).toFixed(2)}deg`);
+        },
+        { passive: true }
+      );
+      el.addEventListener("pointerleave", () => {
+        el.style.setProperty("--ry", "0deg");
+        el.style.setProperty("--rx", "0deg");
+      });
+    });
+  }
+
+  function initMagnetic() {
+    if (reduceMotion || !fine) return;
+    $$("[data-magnetic]").forEach((el) => {
+      el.addEventListener(
+        "pointermove",
+        (e) => {
+          const r = el.getBoundingClientRect();
+          const x = (e.clientX - (r.left + r.width / 2)) * 0.22;
+          const y = (e.clientY - (r.top + r.height / 2)) * 0.32;
+          el.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`;
+        },
+        { passive: true }
+      );
+      el.addEventListener("pointerleave", () => (el.style.transform = ""));
+    });
+  }
+
+  /* ---------- Scroll progress + header state ---------- */
+  const progress = $(".progress");
+  const header = $(".site-header");
+  let ticking = false;
+  const onScroll = () => {
+    const max = document.documentElement.scrollHeight - innerHeight;
+    if (progress) progress.style.setProperty("--p", max > 0 ? Math.min(scrollY / max, 1).toFixed(4) : 0);
+    if (header) header.classList.toggle("scrolled", scrollY > 12);
+    ticking = false;
+  };
+  window.addEventListener("scroll", () => !ticking && ((ticking = true), requestAnimationFrame(onScroll)), { passive: true });
+  onScroll();
+
+  /* ---------- Cursor glow ---------- */
+  const glow = $(".cursor-glow");
+  if (glow && fine && !reduceMotion) {
+    let gx = 0, gy = 0, cx2 = 0, cy2 = 0, graf = null;
+    const loop = () => {
+      cx2 += (gx - cx2) * 0.12;
+      cy2 += (gy - cy2) * 0.12;
+      glow.style.transform = `translate3d(${cx2.toFixed(1)}px, ${cy2.toFixed(1)}px, 0)`;
+      graf = Math.abs(gx - cx2) > 0.5 || Math.abs(gy - cy2) > 0.5 ? requestAnimationFrame(loop) : null;
+    };
+    window.addEventListener(
+      "pointermove",
+      (e) => {
+        gx = e.clientX;
+        gy = e.clientY;
+        glow.classList.add("on");
+        if (!graf) graf = requestAnimationFrame(loop);
+      },
+      { passive: true }
+    );
+    document.documentElement.addEventListener("pointerleave", () => glow.classList.remove("on"));
   }
 
   if (cfg.github && $$("[data-gh]").length) {
@@ -310,6 +389,7 @@
       active = 0;
       render();
       dialog.showModal();
+      setCC(false);
       input.focus();
     };
 
@@ -331,6 +411,7 @@
         run(active);
       }
     });
+    dialog.addEventListener("close", () => setCC(true));
     dialog.addEventListener("click", (e) => {
       if (e.target === dialog) dialog.close();
     });
@@ -371,5 +452,278 @@
       },
       { passive: true }
     );
+  }
+
+  /* ==========================================================
+     Creative layer: intro, split text, scramble, cursor,
+     manifesto, page curtain, interactive terminal
+     ========================================================== */
+  let ccEnabled = false;
+  function setCC(on) {
+    if (ccEnabled) document.documentElement.classList.toggle("cc", on);
+  }
+  const markIntroSeen = () => { try { sessionStorage.setItem("lynox-intro", "1"); } catch {} };
+
+  /* Intro (once per session) */
+  let introDone;
+  const introPromise = new Promise((r) => (introDone = r));
+  (() => {
+    const el = $(".loader");
+    if (!el || reduceMotion || !document.documentElement.classList.contains("intro")) {
+      el && el.remove();
+      markIntroSeen();
+      return introDone();
+    }
+    const num = $(".loader-num", el);
+    const t0 = performance.now();
+    const dur = 1500;
+    const tick = (now) => {
+      const p = Math.min((now - t0) / dur, 1);
+      const e = 1 - Math.pow(1 - p, 3);
+      el.style.setProperty("--lp", e.toFixed(3));
+      num.textContent = String(Math.round(e * 100)).padStart(3, "0");
+      if (p < 1) return requestAnimationFrame(tick);
+      el.classList.add("done");
+      markIntroSeen();
+      setTimeout(introDone, 350);
+      setTimeout(() => el.remove(), 1000);
+    };
+    requestAnimationFrame(tick);
+  })();
+
+  /* Split headline into masked words */
+  const splitWords = (root) => {
+    let i = 0;
+    const walk = (node) => {
+      [...node.childNodes].forEach((n) => {
+        if (n.nodeType === 3) {
+          const frag = document.createDocumentFragment();
+          n.textContent.split(/(\s+)/).forEach((part) => {
+            if (!part) return;
+            if (/^\s+$/.test(part)) return frag.appendChild(document.createTextNode(" "));
+            const w = document.createElement("span");
+            w.className = "w";
+            const inner = document.createElement("span");
+            inner.textContent = part;
+            inner.style.setProperty("--i", i++);
+            w.appendChild(inner);
+            frag.appendChild(w);
+          });
+          n.replaceWith(frag);
+        } else if (n.nodeType === 1) walk(n);
+      });
+    };
+    walk(root);
+  };
+  $$("[data-split]").forEach((el) => {
+    splitWords(el);
+    introPromise.then(() => requestAnimationFrame(() => el.classList.add("split-in")));
+  });
+
+  /* Text scramble */
+  const GLYPHS = "!<>-_\\/[]{}—=+*^?#01";
+  const scramble = (el, final) => {
+    if (reduceMotion) return;
+    const total = 22;
+    let f = 0;
+    const id = setInterval(() => {
+      f++;
+      el.textContent = [...final].map((c, i) => (c === " " || i < (final.length * f) / total ? c : GLYPHS[(Math.random() * GLYPHS.length) | 0])).join("");
+      if (f >= total) { clearInterval(id); el.textContent = final; }
+    }, 32);
+  };
+  $$("[data-scramble]").forEach((el) => {
+    const final = el.textContent;
+    if (!("IntersectionObserver" in window)) return;
+    const io = new IntersectionObserver((es) => es[0].isIntersecting && (io.disconnect(), scramble(el, final)), { threshold: 0.6 });
+    io.observe(el);
+  });
+  const brandText = $(".brand span");
+  if (brandText) brandText.parentElement.addEventListener("mouseenter", () => scramble(brandText, "LYNOX"));
+
+  /* Manifesto: words light up with scroll */
+  const man = $("[data-lit]");
+  if (man) {
+    const words = man.textContent.trim().split(/\s+/);
+    man.textContent = "";
+    const spans = words.map((w) => {
+      const s = document.createElement("span");
+      s.className = "lw" + (reduceMotion ? " on" : "");
+      s.textContent = w;
+      man.append(s, " ");
+      return s;
+    });
+    if (!reduceMotion) {
+      const upd = () => {
+        const r = man.getBoundingClientRect();
+        const p = (innerHeight * 0.85 - r.top) / (r.height + innerHeight * 0.3);
+        const n = Math.round(Math.max(0, Math.min(1, p)) * spans.length);
+        spans.forEach((s, i) => s.classList.toggle("on", i < n));
+      };
+      let t2 = false;
+      window.addEventListener("scroll", () => !t2 && ((t2 = true), requestAnimationFrame(() => ((t2 = false), upd()))), { passive: true });
+      upd();
+    }
+  }
+
+  /* Custom cursor + wordmark parallax */
+  if (fine && !reduceMotion) {
+    const cur = $(".cursor");
+    if (cur) {
+      ccEnabled = true;
+      document.documentElement.classList.add("cc");
+      const dot = $(".c-dot", cur), ring = $(".c-ring", cur), wm = $(".wordmark");
+      let mx = -100, my = -100, rx = -100, ry = -100;
+      window.addEventListener(
+        "pointermove",
+        (e) => {
+          mx = e.clientX; my = e.clientY;
+          dot.style.transform = `translate3d(${mx}px, ${my}px, 0)`;
+          cur.classList.remove("hide");
+          cur.classList.toggle("hover", !!(e.target.closest && e.target.closest("a, button, [data-tilt], .chip-tag, input, label")));
+          if (wm) {
+            wm.style.setProperty("--wx", `${((e.clientX / innerWidth - 0.5) * -36).toFixed(1)}px`);
+            wm.style.setProperty("--wy", `${((e.clientY / innerHeight - 0.5) * -24).toFixed(1)}px`);
+          }
+        },
+        { passive: true }
+      );
+      window.addEventListener("pointerdown", () => cur.classList.add("down"));
+      window.addEventListener("pointerup", () => cur.classList.remove("down"));
+      document.documentElement.addEventListener("pointerleave", () => cur.classList.add("hide"));
+      const loop = () => {
+        rx += (mx - rx) * 0.18; ry += (my - ry) * 0.18;
+        ring.style.transform = `translate3d(${rx.toFixed(1)}px, ${ry.toFixed(1)}px, 0)`;
+        requestAnimationFrame(loop);
+      };
+      loop();
+    }
+  }
+
+  /* Page curtain on internal navigation */
+  const curtain = $(".curtain");
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest && e.target.closest("a[href]");
+    if (!a || !curtain || reduceMotion || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    const raw = a.getAttribute("href");
+    if (a.target === "_blank" || a.hasAttribute("download") || !raw || raw.startsWith("#") || /^(mailto|tel):/.test(raw)) return;
+    const u = new URL(a.href, location.href);
+    if (u.origin !== location.origin || u.pathname === location.pathname) return;
+    e.preventDefault();
+    try { sessionStorage.setItem("lynox-nav", "1"); } catch {}
+    curtain.classList.add("go");
+    setTimeout(() => (location.href = u.href), 430);
+  });
+  window.addEventListener("pageshow", (e) => e.persisted && curtain && curtain.classList.remove("go"));
+
+  /* Interactive terminal */
+  const term = $("#term");
+  if (term) {
+    const out = $("#term-out"), form = $("#term-form"), input = $("#term-in");
+    const hist = [];
+    let hi = 0, busy = false;
+    const add = (...parts) => {
+      const d = document.createElement("div");
+      d.className = "term-line";
+      parts.forEach((p) => {
+        if (p instanceof Node) d.appendChild(p);
+        else if (Array.isArray(p)) { const s = document.createElement("span"); s.className = p[1]; s.textContent = p[0]; d.appendChild(s); }
+        else d.appendChild(document.createTextNode(p));
+      });
+      out.appendChild(d);
+      out.scrollTop = out.scrollHeight;
+      return d;
+    };
+    const linkEl = (text, href, ext) => {
+      const a = document.createElement("a");
+      a.textContent = text; a.href = href;
+      if (ext) { a.target = "_blank"; a.rel = "noopener"; }
+      return a;
+    };
+    const stackItems = () => (Array.isArray(cfg.stack) && cfg.stack.length ? cfg.stack.flatMap((g) => g.items || []) : ["API design", "Frontend", "Clean code", "Problem solving"]);
+    const CODE = [
+      [["// profile.ts", "dim"]],
+      [["const ", "p"], ["lynox", "e"], " = {"],
+      ["  role: ", ['"Full Stack Developer"', "ok"], ","],
+      ["  focus: [", ['"API design"', "ok"], ", ", ['"Frontend"', "ok"], "],"],
+      ["  values: [", ['"clean code"', "ok"], ", ", ['"problem solving"', "ok"], ", ", ['"teamwork"', "ok"], "],"],
+      ["  motto: ", ['"clean > clever"', "ok"], ","],
+      ["};"],
+    ];
+    const COMMANDS = {
+      help() {
+        [["help", "اعرض الأوامر"], ["whoami", "أنا مين"], ["skills", "اللي بشتغل بيه"], ["projects", "المشاريع"], ["cat profile.ts", "الملف الشخصي"], ["contact", "طرق التواصل"], ["clear", "امسح الشاشة"]].forEach(([c, d]) => add([c.padEnd(16), "k"], [d, "dim"]));
+      },
+      whoami() {
+        add(["Lynox", "ok"], " — Full Stack Developer");
+        add("بيبني أشياء نضيفة وشغّالة. من الفكرة للكود، ومن الكود للناس.");
+      },
+      skills() { stackItems().forEach((s) => add(["▸ ", "p"], s)); },
+      projects() {
+        add(["01 ", "p"], "URANUS BOT");
+        add(["   موقع تنصيب أورانوس، وأحيانًا لينوكس.", "dim"]);
+        add("   ", linkEl("↗ lynox.hidenplay.net", "https://lynox.hidenplay.net/", true));
+        add(["02 ", "p"], ["قريبًا…", "dim"]);
+      },
+      contact() {
+        let any = false;
+        if (cfg.email) { any = true; add(["email".padEnd(10), "k"], linkEl(cfg.email, `mailto:${cfg.email}`)); }
+        Object.entries(links).forEach(([k, v]) => {
+          if (v) { any = true; add([(LINK_LABELS[k] || k).padEnd(10), "k"], linkEl(v.replace(/^https?:\/\//, ""), v, true)); }
+        });
+        if (!any) add(["الروابط لسه قريبًا…", "dim"]);
+        add(["→ ", "p"], linkEl("contact.html", "contact.html"));
+      },
+      ls() { add(["index.html  projects.html  about.html  contact.html", "k"]); },
+      date() { add(new Date().toString()); },
+      clear() { out.textContent = ""; },
+      exit() { add("مفيش مفر 😄 — اقفل التاب لو عايز."); },
+    };
+    const run = (raw) => {
+      const cmd = raw.trim().replace(/\s+/g, " ");
+      add(["lynox ❯ ", "p"], [cmd, "cmd"]);
+      if (!cmd) return;
+      hist.push(cmd); hi = hist.length;
+      const lower = cmd.toLowerCase();
+      if (Object.hasOwn(COMMANDS, lower)) return COMMANDS[lower]();
+      if (lower === "cat profile.ts") return CODE.forEach((l) => add(...l));
+      if (lower === "sudo hire-me") { add(["✓ request approved", "ok"]); return add("كلمني: ", linkEl("contact.html", "contact.html")); }
+      if (lower.startsWith("sudo")) return add(["lynox is not in the sudoers file. This incident will be reported. 😄", "e"]);
+      if (/^rm\s+-rf/.test(lower)) return add(["nice try 😄", "e"]);
+      if (lower.startsWith("echo ")) return add(cmd.slice(5));
+      add(["command not found: ", "e"], cmd);
+      add(["جرّب ", "dim"], ["help", "k"]);
+    };
+    const typeRun = async (cmd) => {
+      if (busy) return;
+      busy = true;
+      input.value = "";
+      if (!reduceMotion) for (const ch of cmd) { input.value += ch; await new Promise((r) => setTimeout(r, 38)); }
+      await new Promise((r) => setTimeout(r, reduceMotion ? 0 : 180));
+      input.value = "";
+      run(cmd);
+      busy = false;
+    };
+    form.addEventListener("submit", (e) => { e.preventDefault(); if (busy) return; const v = input.value; input.value = ""; run(v); });
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowUp") { e.preventDefault(); hi = Math.max(0, hi - 1); input.value = hist[hi] || ""; }
+      else if (e.key === "ArrowDown") { e.preventDefault(); hi = Math.min(hist.length, hi + 1); input.value = hist[hi] || ""; }
+      else if (e.key === "Tab") {
+        e.preventDefault();
+        const names = [...Object.keys(COMMANDS), "cat profile.ts", "sudo hire-me"].filter((n) => n.startsWith(input.value.toLowerCase()));
+        if (names.length === 1) input.value = names[0];
+      }
+    });
+    $$("[data-cmd]", term).forEach((b) => b.addEventListener("click", () => typeRun(b.dataset.cmd)));
+    term.addEventListener("click", (e) => { if (!e.target.closest("a, button") && !getSelection().toString()) input.focus({ preventScroll: true }); });
+    const boot = async () => {
+      add(["Lynox OS 1.0 — اكتب ", "dim"], ["help", "k"], [" للأوامر", "dim"]);
+      add("");
+      await typeRun("whoami");
+    };
+    if ("IntersectionObserver" in window) {
+      const io = new IntersectionObserver((es) => es[0].isIntersecting && (io.disconnect(), boot()), { threshold: 0.35 });
+      io.observe(term);
+    } else boot();
   }
 })();

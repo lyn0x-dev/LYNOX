@@ -5,24 +5,37 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>من أنا — Lynox</title>
 <meta name="description" content="Lynox مطور بيحب المشاكل اللي محتاجة تفكير مش بس تنفيذ.">
-<meta name="theme-color" content="#07090f">
-<link rel="canonical" href="https://lynox.duckdns.org/about.html">
+<meta name="theme-color" content="#08070a">
+<meta name="color-scheme" content="dark">
+<link rel="canonical" href="https://lynox.org/about.html">
 <meta property="og:type" content="website">
+<meta property="og:locale" content="ar_EG">
 <meta property="og:site_name" content="Lynox">
 <meta property="og:title" content="من أنا — Lynox">
 <meta property="og:description" content="Lynox مطور بيحب المشاكل اللي محتاجة تفكير مش بس تنفيذ.">
-<meta property="og:url" content="https://lynox.duckdns.org/about.html">
-<meta property="og:image" content="https://lynox.duckdns.org/avatar.jpg">
-<meta name="twitter:card" content="summary">
-<link rel="icon" href="avatar.jpg">
+<meta property="og:url" content="https://lynox.org/about.html">
+<meta property="og:image" content="https://lynox.org/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="من أنا — Lynox">
+<meta name="twitter:description" content="Lynox مطور بيحب المشاكل اللي محتاجة تفكير مش بس تنفيذ.">
+<meta name="twitter:image" content="https://lynox.org/og.png">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="avatar.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&family=Space+Grotesk:wght@700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
-<script>document.documentElement.classList.add('js')</script>
+<script>document.documentElement.classList.add('js');try{if(!sessionStorage.getItem('lynox-intro'))document.documentElement.classList.add('intro');if(sessionStorage.getItem('lynox-nav')){document.documentElement.classList.add('arriving');sessionStorage.removeItem('lynox-nav')}}catch(e){}</script>
 </head>
 <body>
   <a class="skip" href="#main">تخطي للمحتوى</a>
+  <div class="loader" aria-hidden="true"><div class="loader-inner"><div class="loader-word">LYNOX</div><div class="loader-bar"><i></i></div><div class="loader-num">000</div></div></div>
+  <div class="curtain" aria-hidden="true"></div>
+  <div class="cursor" aria-hidden="true"><i class="c-dot"></i><i class="c-ring"></i></div>
+  <div class="progress" aria-hidden="true"></div>
+  <div class="cursor-glow" aria-hidden="true"></div>
 
   <div class="bg" aria-hidden="true">
     <div class="grid-lines"></div>
@@ -30,11 +43,12 @@
     <div class="blob b2"></div>
     <div class="blob b3"></div>
   </div>
+  <div class="grain" aria-hidden="true"></div>
 
   <header class="site-header">
     <div class="wrap">
       <div class="bar">
-        <a class="brand" href="index.html"><img src="avatar.jpg" width="30" height="30" alt=""><span>Lynox</span></a>
+        <a class="brand" href="index.html" aria-label="Lynox — الرئيسية"><img src="avatar.jpg" width="32" height="32" alt=""><span>LYNOX</span></a>
         <nav class="site-nav" aria-label="التنقل الرئيسي">
           <a href="index.html">الرئيسية</a>
           <a href="projects.html">المشاريع</a>
@@ -50,12 +64,16 @@
 
     <div class="wrap">
       <div class="page-head">
-        <h1 class="page-title">من أنا</h1>
+        <h1 class="page-title reveal">من أنا</h1>
       </div>
 
       <div class="about-grid">
         <aside class="card profile reveal">
-          <div class="avatar"><img src="avatar.jpg" width="736" height="766" alt="صورة Lynox الشخصية"></div>
+          <figure class="portrait" data-tilt>
+            <img src="avatar.jpg" width="736" height="766" alt="صورة Lynox الشخصية">
+            <img class="gl g1" src="avatar.jpg" alt="" aria-hidden="true"><img class="gl g2" src="avatar.jpg" alt="" aria-hidden="true">
+            <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          </figure>
           <h2>Lynox</h2>
           <p class="role" dir="ltr">Full Stack Developer</p>
           <div class="actions">
@@ -96,7 +114,10 @@
 
   <footer class="site-footer">
     <div class="wrap">
-      <span>© <span data-year>2026</span> Lynox</span>
+      <span>© <span data-year>2026</span> Lynox — كل الحقوق محفوظة</span>
+      <nav class="foot-nav" aria-label="روابط التذييل">
+        <a href="projects.html">المشاريع</a><a href="about.html">من أنا</a><a href="contact.html">تواصل</a>
+      </nav>
       <span>مبني بـ HTML وCSS وJS من غير frameworks</span>
     </div>
   </footer>
