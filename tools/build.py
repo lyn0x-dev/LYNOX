@@ -284,7 +284,7 @@ def page_index():
 
     return (
         head("Lynox — مطور Full Stack وحلول ويب متقدمة",
-             "Lynox مطور Full Stack يصنع حلولاً رقمية استثنائية، واجهات فائقة السرعة، وبنية خلفية عالية الموثوقية من الفكرة حتى الإنتاج.", "", schema)
+             "Simplicity is the soul of efficiency.", "", schema)
         + header("index.html")
         + f"""
   <main id="main">
