@@ -3,31 +3,42 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>تواصل — Lynox</title>
-<meta name="description" content="أسهل طريقة توصل بيها لـ Lynox.">
+<title>تواصل واطلب مشروعك — Lynox</title>
+<meta name="description" content="تواصل مباشرة مع Lynox لمناقشة مشروعك، طلب استشارة برمجية، أو استفسار عن خدمات التطوير.">
 <meta name="theme-color" content="#08070a">
 <meta name="color-scheme" content="dark">
-<link rel="canonical" href="https://lynox.org/contact.html">
+<link rel="canonical" href="https://dev.lynox.org/contact.html">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ar_EG">
 <meta property="og:site_name" content="Lynox">
-<meta property="og:title" content="تواصل — Lynox">
-<meta property="og:description" content="أسهل طريقة توصل بيها لـ Lynox.">
-<meta property="og:url" content="https://lynox.org/contact.html">
-<meta property="og:image" content="https://lynox.org/og.png">
+<meta property="og:title" content="تواصل واطلب مشروعك — Lynox">
+<meta property="og:description" content="تواصل مباشرة مع Lynox لمناقشة مشروعك، طلب استشارة برمجية، أو استفسار عن خدمات التطوير.">
+<meta property="og:url" content="https://dev.lynox.org/contact.html">
+<meta property="og:image" content="https://dev.lynox.org/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="تواصل — Lynox">
-<meta name="twitter:description" content="أسهل طريقة توصل بيها لـ Lynox.">
-<meta name="twitter:image" content="https://lynox.org/og.png">
+<meta name="twitter:title" content="تواصل واطلب مشروعك — Lynox">
+<meta name="twitter:description" content="تواصل مباشرة مع Lynox لمناقشة مشروعك، طلب استشارة برمجية، أو استفسار عن خدمات التطوير.">
+<meta name="twitter:image" content="https://dev.lynox.org/og.png">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="avatar.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
-<script>document.documentElement.classList.add('js');try{if(!sessionStorage.getItem('lynox-intro'))document.documentElement.classList.add('intro');if(sessionStorage.getItem('lynox-nav')){document.documentElement.classList.add('arriving');sessionStorage.removeItem('lynox-nav')}}catch(e){}</script>
+<script>
+  document.documentElement.classList.add('js');
+  try {
+    const acc = localStorage.getItem('lynox-accent');
+    if (acc) document.documentElement.setAttribute('data-accent', acc);
+    if (!sessionStorage.getItem('lynox-intro')) document.documentElement.classList.add('intro');
+    if (sessionStorage.getItem('lynox-nav')) {
+      document.documentElement.classList.add('arriving');
+      sessionStorage.removeItem('lynox-nav');
+    }
+  } catch(e) {}
+</script>
 </head>
 <body>
   <a class="skip" href="#main">تخطي للمحتوى</a>
@@ -48,14 +59,33 @@
   <header class="site-header">
     <div class="wrap">
       <div class="bar">
-        <a class="brand" href="index.html" aria-label="Lynox — الرئيسية"><img src="avatar.jpg" width="32" height="32" alt=""><span>LYNOX</span></a>
+        <a class="brand" href="index.html" aria-label="Lynox — الرئيسية">
+          <img src="avatar.jpg" width="34" height="34" alt="Lynox">
+          <span>LYNOX</span>
+        </a>
+        <a class="status-badge" href="contact.html" title="متاح لقبول مشاريع جديدة واستشارات برمجية">
+          <i class="status-dot"></i>
+          <span>متاح للعمل الحر</span>
+        </a>
         <nav class="site-nav" aria-label="التنقل الرئيسي">
           <a href="index.html">الرئيسية</a>
           <a href="projects.html">المشاريع</a>
           <a href="about.html">من أنا</a>
           <a href="contact.html" aria-current="page">تواصل</a>
         </nav>
-        <button class="kbd-btn" type="button" data-open-palette aria-label="بحث وأوامر سريعة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="kbd-label">بحث</span><kbd>Ctrl K</kbd></button>
+        <div class="header-controls">
+          <button class="ctrl-btn theme-toggle" type="button" data-theme-cycle title="تغيير لون الهوية (ثيم تفاعلي)" aria-label="تغيير لون الهوية">
+            <span class="theme-swatch"></span>
+          </button>
+          <button class="ctrl-btn sound-toggle" type="button" data-sound-toggle title="تفعيل / كتم المؤثرات الصوتية" aria-label="المؤثرات الصوتية">
+            <svg class="s-icon s-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+            <svg class="s-icon s-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+          </button>
+          <button class="kbd-btn" type="button" data-open-palette aria-label="بحث وأوامر سريعة">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <span class="kbd-label">أوامر</span><kbd>Ctrl K</kbd>
+          </button>
+        </div>
       </div>
     </div>
   </header>
@@ -64,36 +94,173 @@
 
     <div class="wrap">
       <div class="page-head">
-        <h1 class="page-title reveal">تواصل معايا</h1>
-        <p class="page-lede reveal">أسهل طريقة توصلني بيها من الروابط دي. برد عليك أول ما أشوف الرسالة.</p>
+        <span class="kicker reveal" data-scramble>// start a project</span>
+        <h1 class="page-title reveal">دعنا نبني شيئاً استثنائياً معاً</h1>
+        <p class="page-lede reveal">سواء كانت لديك فكرة تطبيق جديد، ترغب في تطوير نظام قائم، أو تحتاج استشارة برمجية دقيقة — أنا هنا لمساعدتك على إطلاق منتجك بأعلى كفاءة.</p>
       </div>
 
-      <div class="links">
-        <a class="link-row reveal" href="#" data-link="github"><span class="link-icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.73.5.98 5.24.98 11.52c0 4.94 3.2 9.13 7.65 10.61.56.1.76-.24.76-.54 0-.27-.01-1.16-.02-2.11-3.11.68-3.77-1.32-3.77-1.32-.51-1.3-1.24-1.64-1.24-1.64-1.02-.7.08-.68.08-.68 1.12.08 1.71 1.15 1.71 1.15 1 1.71 2.62 1.22 3.26.93.1-.72.39-1.22.71-1.5-2.48-.28-5.1-1.24-5.1-5.53 0-1.22.44-2.22 1.15-3-.11-.28-.5-1.42.11-2.96 0 0 .94-.3 3.08 1.15a10.7 10.7 0 0 1 5.6 0c2.14-1.45 3.08-1.15 3.08-1.15.61 1.54.22 2.68.11 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.63 5.24-5.13 5.52.4.35.76 1.04.76 2.1 0 1.51-.01 2.73-.01 3.1 0 .3.2.65.77.54 4.45-1.48 7.65-5.67 7.65-10.61C23.02 5.24 18.27.5 12 .5Z"/></svg></span><span>GitHub</span><span class="link-note"></span></a>
-        <a class="link-row reveal" href="#" data-link="linkedin"><span class="link-icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.03-1.85-3.03-1.86 0-2.14 1.45-2.14 2.94v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.35-1.85 3.59 0 4.25 2.36 4.25 5.44v6.3ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45Z"/></svg></span><span>LinkedIn</span><span class="link-note"></span></a>
-        <a class="link-row reveal" href="#" data-link="x"><span class="link-icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117Z"/></svg></span><span>X / تويتر</span><span class="link-note"></span></a>
-        <a class="link-row reveal" href="#" data-link="telegram"><span class="link-icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.94 4.5 18.6 20.06c-.25 1.1-.9 1.37-1.83.85l-5.06-3.73-2.44 2.35c-.27.27-.5.5-1.02.5l.36-5.16 9.4-8.5c.41-.36-.09-.56-.63-.2L6.03 12.6 1 11.03c-1.1-.34-1.11-1.1.23-1.63L20.5 3.15c.92-.34 1.72.22 1.44 1.35Z"/></svg></span><span>تيليجرام</span><span class="link-note"></span></a>
-        <a class="link-row reveal" href="#" data-link="whatsapp"><span class="link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 20.5l1.6-5.4A8.5 8.5 0 1 1 21 11.5Z"/></svg></span><span>واتساب</span><span class="link-note"></span></a>
-        <a class="link-row reveal" href="#" data-link="email"><span class="link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span><span>البريد الإلكتروني</span><span class="link-note"></span></a>
+      <div class="contact-layout">
+
+        <!-- INTERACTIVE INQUIRY FORM -->
+        <section class="card form-card spot reveal">
+          <div class="form-header">
+            <h2 class="card-title">نموذج حجز مشروع سريع</h2>
+            <p class="form-sub">املأ التفاصيل البسيطة وسأعود إليك بدراسة وخطة مقترحة في غضون ساعتين.</p>
+          </div>
+
+          <form id="project-form" class="inquiry-form" autocomplete="off">
+            <div class="form-group">
+              <label for="f-name">الاسم / اسم الشركة</label>
+              <input id="f-name" type="text" placeholder="مثال: أحمد محمد / شركة التقنية" required>
+            </div>
+
+            <div class="form-group">
+              <label for="f-contact">البريد الإلكتروني أو رقم الواتساب</label>
+              <input id="f-contact" type="text" placeholder="contact@example.com أو +201..." required>
+            </div>
+
+            <div class="form-group">
+              <label>نوع المشروع المطلوب</label>
+              <div class="form-chips" role="radiogroup" aria-label="نوع المشروع">
+                <button type="button" class="form-chip is-selected" data-type="Full Stack App">تطبيق ويب كامل</button>
+                <button type="button" class="form-chip" data-type="API / Backend">واجهات برمجية وAPIs</button>
+                <button type="button" class="form-chip" data-type="Bot / Automation">بوت أو نظام أتمتة</button>
+                <button type="button" class="form-chip" data-type="UI / UX Revamp">تحسين واجهات وأداء</button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="f-details">نبذة عن فكرة المشروع أو متطلباتك</label>
+              <textarea id="f-details" rows="4" placeholder="اكتب وصفاً موجزاً لما ترغب في بنائه أو المشكلة التي تسعى لحلها..." required></textarea>
+            </div>
+
+            <div class="form-actions">
+              <button class="btn btn-primary" type="submit" id="btn-send-email">
+                إرسال الطلب عبر البريد <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+              </button>
+              <button class="btn btn-accent" type="button" id="btn-send-whatsapp">
+                إرسال مباشر عبر واتساب
+              </button>
+              <button class="btn btn-ghost" type="button" id="btn-copy-summary">
+                نسخ ملخص الرسالة
+              </button>
+            </div>
+
+            <div class="form-footnote">
+              <span>🔒 التزام تام بالسرية المهنية واتفاقيات عدم الإفصاح (NDA).</span>
+            </div>
+          </form>
+        </section>
+
+        <!-- DIRECT CHANNELS -->
+        <div class="contact-side">
+          <div class="card info-box reveal">
+            <div class="info-badge">
+              <i class="status-dot"></i>
+              <span>متوسط وقت الرد: أقل من ساعتين</span>
+            </div>
+            <h3>قنوات التواصل المباشرة</h3>
+            <p>اختر القناة الأنسب لك لبدء المحادثة فوراً.</p>
+          </div>
+
+          <div class="links">
+        <a class="link-row reveal" href="#" data-link="whatsapp">
+          <span class="link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 20.5l1.6-5.4A8.5 8.5 0 1 1 21 11.5Z"/></svg></span>
+          <div class="link-text-wrap">
+            <span class="link-title">واتساب</span>
+            <span class="link-desc">محادثة فورية مباشرة</span>
+          </div>
+          <span class="link-note"></span>
+        </a>
+        <a class="link-row reveal" href="#" data-link="telegram">
+          <span class="link-icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.94 4.5 18.6 20.06c-.25 1.1-.9 1.37-1.83.85l-5.06-3.73-2.44 2.35c-.27.27-.5.5-1.02.5l.36-5.16 9.4-8.5c.41-.36-.09-.56-.63-.2L6.03 12.6 1 11.03c-1.1-.34-1.11-1.1.23-1.63L20.5 3.15c.92-.34 1.72.22 1.44 1.35Z"/></svg></span>
+          <div class="link-text-wrap">
+            <span class="link-title">تيليجرام</span>
+            <span class="link-desc">رسائل سريعة واستفسارات</span>
+          </div>
+          <span class="link-note"></span>
+        </a>
+        <a class="link-row reveal" href="#" data-link="email">
+          <span class="link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
+          <div class="link-text-wrap">
+            <span class="link-title">البريد الإلكتروني</span>
+            <span class="link-desc">للمراسلات الرسمية والملفات</span>
+          </div>
+          <span class="link-note"></span>
+        </a>
+        <a class="link-row reveal" href="#" data-link="linkedin">
+          <span class="link-icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.03-1.85-3.03-1.86 0-2.14 1.45-2.14 2.94v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.35-1.85 3.59 0 4.25 2.36 4.25 5.44v6.3ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45Z"/></svg></span>
+          <div class="link-text-wrap">
+            <span class="link-title">LinkedIn</span>
+            <span class="link-desc">الملف المهني وشبكة الأعمال</span>
+          </div>
+          <span class="link-note"></span>
+        </a>
+        <a class="link-row reveal" href="#" data-link="github">
+          <span class="link-icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.73.5.98 5.24.98 11.52c0 4.94 3.2 9.13 7.65 10.61.56.1.76-.24.76-.54 0-.27-.01-1.16-.02-2.11-3.11.68-3.77-1.32-3.77-1.32-.51-1.3-1.24-1.64-1.24-1.64-1.02-.7.08-.68.08-.68 1.12.08 1.71 1.15 1.71 1.15 1 1.71 2.62 1.22 3.26.93.1-.72.39-1.22.71-1.5-2.48-.28-5.1-1.24-5.1-5.53 0-1.22.44-2.22 1.15-3-.11-.28-.5-1.42.11-2.96 0 0 .94-.3 3.08 1.15a10.7 10.7 0 0 1 5.6 0c2.14-1.45 3.08-1.15 3.08-1.15.61 1.54.22 2.68.11 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.63 5.24-5.13 5.52.4.35.76 1.04.76 2.1 0 1.51-.01 2.73-.01 3.1 0 .3.2.65.77.54 4.45-1.48 7.65-5.67 7.65-10.61C23.02 5.24 18.27.5 12 .5Z"/></svg></span>
+          <div class="link-text-wrap">
+            <span class="link-title">GitHub</span>
+            <span class="link-desc">الأكواد والمستودعات البرمجية</span>
+          </div>
+          <span class="link-note"></span>
+        </a>
+        <a class="link-row reveal" href="#" data-link="x">
+          <span class="link-icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117Z"/></svg></span>
+          <div class="link-text-wrap">
+            <span class="link-title">X / تويتر</span>
+            <span class="link-desc">أحدث الأفكار والمنشورات</span>
+          </div>
+          <span class="link-note"></span>
+        </a>
+          </div>
+        </div>
+
       </div>
     </div>
   </main>
 
   <footer class="site-footer">
     <div class="wrap">
-      <span>© <span data-year>2026</span> Lynox — كل الحقوق محفوظة</span>
-      <nav class="foot-nav" aria-label="روابط التذييل">
-        <a href="projects.html">المشاريع</a><a href="about.html">من أنا</a><a href="contact.html">تواصل</a>
-      </nav>
-      <span>مبني بـ HTML وCSS وJS من غير frameworks</span>
+      <div class="foot-main">
+        <div class="foot-brand">
+          <div class="foot-logo"><img src="avatar.jpg" width="28" height="28" alt=""><span>LYNOX</span></div>
+          <p class="foot-tagline">هندسة برمجية نظيفة، واجهات استثنائية، وأداء لا يقبل المساومة.</p>
+        </div>
+        <div class="foot-nav-groups">
+          <div class="foot-col">
+            <span class="foot-h">التنقل السريع</span>
+            <a href="index.html">الرئيسية</a>
+            <a href="projects.html">المشاريع</a>
+            <a href="about.html">من أنا والخبرات</a>
+            <a href="contact.html">تواصل وطلب مشروع</a>
+          </div>
+          <div class="foot-col">
+            <span class="foot-h">الخدمات</span>
+            <span>تطوير Full Stack</span>
+            <span>واجهات فائقة السرعة</span>
+            <span>بناء APIs وأتمتة</span>
+          </div>
+        </div>
+      </div>
+      <div class="foot-sub">
+        <span>© <span data-year>2026</span> Lynox — كود نظيف وتصميم بمعايير عالمية</span>
+        <span>مبني بأداء فائق وخالي من الاعتماديات الثقيلة</span>
+      </div>
     </div>
   </footer>
 
   <dialog id="palette" class="palette" aria-label="التنقل السريع">
     <div class="pal-box">
-      <input id="pal-input" class="pal-input" type="text" placeholder="ابحث عن صفحة أو أمر..." autocomplete="off" role="combobox" aria-expanded="true" aria-controls="pal-list">
-      <ul id="pal-list" class="pal-list" role="listbox" aria-label="النتايج"></ul>
-      <div class="pal-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> للتنقل</span><span><kbd>Enter</kbd> للفتح</span><span><kbd>Esc</kbd> للإغلاق</span></div>
+      <div class="pal-head">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="pal-input" class="pal-input" type="text" placeholder="اكتب أمراً أو ابحث عن صفحة (جرّب theme أو projects أو contact)..." autocomplete="off" role="combobox" aria-expanded="true" aria-controls="pal-list">
+      </div>
+      <ul id="pal-list" class="pal-list" role="listbox" aria-label="النتائج"></ul>
+      <div class="pal-foot">
+        <span><kbd>↑</kbd> <kbd>↓</kbd> للتنقل</span>
+        <span><kbd>Enter</kbd> للاختيار</span>
+        <span><kbd>Esc</kbd> للإغلاق</span>
+      </div>
     </div>
   </dialog>
 

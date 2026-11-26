@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://lynox.org/sitemap.xml
+Sitemap: https://dev.lynox.org/sitemap.xml
